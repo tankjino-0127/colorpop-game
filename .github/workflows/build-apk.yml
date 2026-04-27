@@ -26,16 +26,16 @@ jobs:
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
 
-      - name: Build Release APK
+      - name: Build Release AAB
         run: |
-          ./gradlew assembleRelease \
+          ./gradlew bundleRelease \
             -Pandroid.injected.signing.store.file=${{ github.workspace }}/keystore.jks \
             -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
             -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
             -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
 
-      - name: Upload Release APK
+      - name: Upload Release AAB
         uses: actions/upload-artifact@v4
         with:
-          name: colorpop-release-apk
-          path: app/build/outputs/apk/release/app-release.apk
+          name: colorpop-release-aab
+          path: app/build/outputs/bundle/release/app-release.aab
